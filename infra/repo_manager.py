@@ -200,6 +200,13 @@ class RepoManager:
       pr_ref: The pull request reference to be checked out.
     """
     self.fetch_unshallow()
+
+    out, err_msg, err_code = self.git(['remote', '-v'], check_result=True)
+    logging.error(f'XXXXXXXXXXXX {out=} {err_msg=} {err_code=}')
+
+    out, err_msg, err_code = self.git(['branch', '-a'], check_result=True)
+    logging.error(f'YYYYYYYYYYYY {out=} {err_msg=} {err_code=}')
+
     self.git(['fetch', 'origin', pr_ref], check_result=True)
     self.git(['checkout', '-f', 'FETCH_HEAD'], check_result=True)
     self.git(['submodule', 'update', '-f', '--init', '--recursive'],
